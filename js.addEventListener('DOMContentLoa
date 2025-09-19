@@ -1,0 +1,68 @@
+document.addEventListener('DOMContentLoaded', () => {
+    // Mobile menu functionality
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    mobileMenuBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+    });
+
+    // Contact form submission handler
+    const contactForm = document.getElementById('contact-form');
+    const messageBox = document.getElementById('message-box');
+    
+    // Helper function to show a message
+    function showMessage(text, isError = false) {
+        messageBox.textContent = text;
+        messageBox.classList.remove('bg-green-500', 'bg-red-500');
+        messageBox.classList.add(isError ? 'bg-red-500' : 'bg-green-500');
+        messageBox.classList.add('show');
+        
+        // Hide the message box after 3 seconds
+        setTimeout(() => {
+            messageBox.classList.remove('show');
+        }, 3000);
+    }
+
+    contactForm.addEventListener('submit', (event) => {
+        event.preventDefault(); // Prevent default form submission
+        showMessage("Form submitted successfully!");
+        
+        // Clear the form fields after a small delay
+        setTimeout(() => {
+            contactForm.reset();
+        }, 500);
+    });
+
+    // Add event listeners for "Add to Cart" and "Wishlist" buttons
+    document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            const productCard = button.closest('.product-card');
+            const productName = productCard.querySelector('h3').textContent;
+            showMessage(`${productName} added to cart!`);
+        });
+    });
+
+    document.querySelectorAll('.add-to-wishlist-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            const productCard = button.closest('.product-card');
+            const productName = productCard.querySelector('h3').textContent;
+            showMessage(`${productName} added to wishlist!`);
+        });
+    });
+    
+    // New functionality for "Explore Our Story" button
+    const showStoriesBtn = document.getElementById('show-stories-btn');
+    const customerStoriesSection = document.getElementById('customer-stories');
+
+    showStoriesBtn.addEventListener('click', (event) => {
+        event.preventDefault();
+        // Toggle visibility of the customer stories section
+        customerStoriesSection.classList.toggle('hidden');
+
+        // Smooth scroll to the new section
+        if (!customerStoriesSection.classList.contains('hidden')) {
+            customerStoriesSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    });
+});
